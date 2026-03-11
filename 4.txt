@@ -1,0 +1,19 @@
+from google.colab import files
+uploaded = files.upload()
+with open("api_key.txt", "r") as file:
+    api_key = file.read().strip()
+import openai
+openai.api_key = api_key
+completion = openai.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "user", "content": "honesty is the best"}
+    ],
+    n=3,           # Generate 3 responses
+    temperature=1, # Creativity
+    store=True     # Store the conversation if your account supports it
+)
+for i in range(len(completion.choices)):
+    print(f"--- Response {i+1} ---")
+    print(completion.choices[i].message.content)
+    print("\n")
